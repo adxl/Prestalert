@@ -1,0 +1,9 @@
+CMS utilisé : Prestashop
+Nom du plugin : Presalert
+Description : Ce module permet d'afficher une bannière en haut de votre site web de boutique.
+Fonctionnalités : 
+    - Texte personalisable
+    - Couleur personalisable
+    - Alignement personalisable
+
+Lien du dépôt : https://github.com/adxl/Prestalert
