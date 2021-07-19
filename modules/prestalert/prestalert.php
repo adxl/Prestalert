@@ -68,46 +68,41 @@ class PrestAlert extends Module
 
             foreach ($this->names as $name) {
 
-                $currentValue = strval(Tools::getValue($name));
+                $currentValue = $name == 'banner_img' ? Configuration::get($name) :  strval(Tools::getValue($name));
 
-                if ($name == 'banner_img') {
-                    //Sauvergader l'image dans un dossier 
-                    //$currentValue = $img_name;
-
-                    $file = $_FILES['banner_img'];
-
-                    if (!empty($file['name'])) {
-
-                        $media = "./modules/prestalert/images/" . uniqid() . '-' . $file['name'];
-
-                        if (!getimagesize($file["tmp_name"])) {
-                            $output .= $this->displayError($this->l("L'image est invalide"));
-                            continue;
-                        }
-
-                        $file_type = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-                        $allowed_types = ['jpg', 'jpeg', 'png'];
-                        if (!in_array($file_type, $allowed_types)) {
-                            $output .= $this->displayError($this->l("Le format de l'image est invalide"));
-                            continue;
-                        }
-                        if (!move_uploaded_file($file["tmp_name"], $media)) {
-                            $output .= $this->displayError($this->l("La photo n'a pas pu être ajoutée"));
-                            echo $media . ' - ' . $file['tmp_name'];
-                            die();
-                            continue;
-                        }
-                        $currentValue = "/var/www/html$media";
-                    }
-                }
-
-
-                if (
-                    !$currentValue ||
-                    empty($currentValue)
-                ) {
+                if (!$currentValue || empty($currentValue)) {
                     $output .= $this->displayError($this->l('Veuillez renseigner le champs ' . $name));
                 } else {
+                    if ($name == 'banner_img') {
+
+                        $file = $_FILES['banner_img'];
+
+                        if (!empty($file['name'])) {
+
+                            $media = "/modules/prestalert/images/" . uniqid() . '-' . $file['name'];
+
+                            if (!getimagesize($file["tmp_name"])) {
+                                $output .= $this->displayError($this->l("L'image est invalide"));
+                                continue;
+                            }
+
+                            $file_type = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                            $allowed_types = ['jpg', 'jpeg', 'png'];
+                            if (!in_array($file_type, $allowed_types)) {
+                                $output .= $this->displayError($this->l("Le format de l'image est invalide"));
+                                continue;
+                            }
+
+                            $path = '/var/www/html' . $media;
+                            if (!move_uploaded_file($file["tmp_name"], $path)) {
+                                $output .= $this->displayError($this->l("La photo n'a pas pu être ajoutée"));
+                                continue;
+                            }
+
+                            $currentValue = $media;
+                        }
+                    }
+
                     Configuration::updateValue($name, $currentValue);
                     $output .= $this->displayConfirmation($this->l('Settings updated'));
                 }
@@ -151,7 +146,6 @@ class PrestAlert extends Module
                         'label' => $this->l('Image banner'),
                         'name' => 'banner_img',
                         'accept' => 'image/*',
-                        'size' => 20,
                         'class' => 'input',
                         'required' => true
                     ],
