@@ -26,6 +26,7 @@ class PrestAlert extends Module
             'banner_end_date',
             'banner_img',
             'banner_text',
+            'banner_color',
             'banner_url',
             'banner_active',
         ];
@@ -174,6 +175,12 @@ class PrestAlert extends Module
                     ],
 
                     [
+                        'type' => 'color',
+                        'label' => $this->l('Couleur du texte'),
+                        'name' => 'banner_color',
+                    ],
+
+                    [
                         'type' => 'radio',
                         'label' => $this->l('Visibilité'),
                         'name' => 'banner_active',
@@ -226,6 +233,7 @@ class PrestAlert extends Module
             'prestalert_end' => Configuration::get('banner_end_date'),
             'prestalert_src' => Configuration::get('banner_img'),
             'prestalert_text' => Configuration::get('banner_text'),
+            'prestalert_color' => Configuration::get('banner_color'),
             'prestalert_url' => Configuration::get('banner_url'),
             'prestalert_active' => Configuration::get('banner_active'),
         ]);

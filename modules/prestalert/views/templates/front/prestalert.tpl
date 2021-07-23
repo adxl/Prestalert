@@ -4,7 +4,7 @@
 <div id="prestalert_block" class="block">
     <a href="{$prestalert_url}">
         <img src="/upload/{$prestalert_src}" alt="banner">
-        <p>{$prestalert_text}</p>
+        <h1 style="color: {$prestalert_color}">{$prestalert_text}</h1>
     </a>
 </div>
 {/if}

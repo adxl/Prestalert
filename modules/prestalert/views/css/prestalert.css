@@ -14,14 +14,14 @@
     object-fit: cover;
 }
 
-#prestalert_block a p {
+#prestalert_block a h1 {
     position: absolute;
-    font-size: 28px;
-    top: 20%;
+    font-size: 32px;
+    font-weight: 600;
+    top: 50%;
+    transform: translateY(-50%);
     width: 100%;
+    margin: 0;
     text-align: center;
     color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-
-
 }
