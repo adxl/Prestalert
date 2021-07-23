@@ -1,9 +1,10 @@
 #prestalert_block {
-    height: 10vh;
+    height: 20vh;
     margin: 0 !important;
 }
 
 #prestalert_block a {
+    position: relative;
     height: 100%;
 }
 
@@ -11,4 +12,16 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+#prestalert_block a p {
+    position: absolute;
+    font-size: 28px;
+    top: 20%;
+    width: 100%;
+    text-align: center;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+
 }

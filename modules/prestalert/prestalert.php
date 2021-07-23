@@ -25,6 +25,7 @@ class PrestAlert extends Module
             'banner_start_date',
             'banner_end_date',
             'banner_img',
+            'banner_text',
             'banner_url',
             'banner_active',
         ];
@@ -77,7 +78,6 @@ class PrestAlert extends Module
                 $currentValue = $name == 'banner_img' ? Configuration::get($name) : strval(Tools::getValue($name));
 
                 if (is_null($currentValue) || strlen($currentValue) == 0) {
-                    die(var_dump(empty($currentValue)));
                     $output .= $this->displayError($this->l('Veuillez renseigner le champs ' . $name));
                 } else {
                     if ($name == 'banner_img') {
@@ -158,6 +158,14 @@ class PrestAlert extends Module
 
                     [
                         'type' => 'text',
+                        'label' => $this->l('Texte à afficher'),
+                        'name' => 'banner_text',
+                        'class' => 'input',
+                        'required' => true
+                    ],
+
+                    [
+                        'type' => 'text',
                         'label' => $this->l('Lien du banner'),
                         'name' => 'banner_url',
                         'placeholder' => 'http://monsite/chemin/mapage',
@@ -217,6 +225,7 @@ class PrestAlert extends Module
             'prestalert_start' => Configuration::get('banner_start_date'),
             'prestalert_end' => Configuration::get('banner_end_date'),
             'prestalert_src' => Configuration::get('banner_img'),
+            'prestalert_text' => Configuration::get('banner_text'),
             'prestalert_url' => Configuration::get('banner_url'),
             'prestalert_active' => Configuration::get('banner_active'),
         ]);
