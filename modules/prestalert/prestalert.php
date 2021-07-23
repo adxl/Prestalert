@@ -30,7 +30,7 @@ class PrestAlert extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->l('PresAlert');
+        $this->displayName = $this->l('PrestAlert');
         $this->description = $this->l('Afficher une bannière en haut de votre site web de boutique.');
 
         $this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
@@ -47,9 +47,9 @@ class PrestAlert extends Module
         }
 
         return (parent::install()
-            && $this->registerHook('leftColumn')
+            && $this->registerHook('displayHeader')
             && $this->registerHook('header')
-            && Configuration::updateValue('PRESTALERT_NAME', 'my friend'));
+            && Configuration::updateValue('PRESTALERT_NAME', 'PrestAlert'));
     }
 
     public function uninstall()
@@ -79,7 +79,7 @@ class PrestAlert extends Module
 
                         if (!empty($file['name'])) {
 
-                            $media = "/modules/prestalert/images/" . uniqid() . '-' . $file['name'];
+                            $media = uniqid() . '-' . $file['name'];
 
                             if (!getimagesize($file["tmp_name"])) {
                                 $output .= $this->displayError($this->l("L'image est invalide"));
@@ -93,7 +93,8 @@ class PrestAlert extends Module
                                 continue;
                             }
 
-                            $path = '/var/www/html' . $media;
+
+                            $path = _PS_UPLOAD_DIR_ . $media;
                             if (!move_uploaded_file($file["tmp_name"], $path)) {
                                 $output .= $this->displayError($this->l("La photo n'a pas pu être ajoutée"));
                                 continue;
@@ -182,5 +183,23 @@ class PrestAlert extends Module
             $helper->fields_value[$name] = Configuration::get($name);
 
         return $helper->generateForm(array($form));
+    }
+
+    public function hookDisplayHeader($params)
+    {
+        $this->context->smarty->assign([
+            'prestalert_start' => Configuration::get('banner_start_date'),
+            'prestalert_end' => Configuration::get('banner_end_date'),
+            'prestalert_src' => Configuration::get('banner_img'),
+            'prestalert_url' => Configuration::get('banner_url'),
+        ]);
+
+
+        $this->context->controller->addCSS(
+            $this->_path . 'views/css/prestalert.css',
+            ['server' => 'remote', 'position' => 'head', 'priority' => 150]
+        );
+
+        return $this->display(__FILE__, 'prestalert.tpl');
     }
 }

@@ -1,0 +1,13 @@
+#prestalert_block {
+    height: 10vh;
+}
+
+#prestalert_block a {
+    height: 100%;
+}
+
+#prestalert_block a img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
