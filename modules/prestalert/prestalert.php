@@ -67,9 +67,14 @@ class PrestAlert extends Module
 
         if (Tools::isSubmit('submit_form')) {
 
+
+            if (Tools::getValue('banner_start_date') > Tools::getValue('banner_end_date')) {
+                return $this->displayError($this->l("L'interval de dates est invalide")) . $this->displayForm();
+            }
+
             foreach ($this->names as $name) {
 
-                $currentValue = $name == 'banner_img' ? Configuration::get($name) :  strval(Tools::getValue($name));
+                $currentValue = $name == 'banner_img' ? Configuration::get($name) : strval(Tools::getValue($name));
 
                 if (is_null($currentValue) || strlen($currentValue) == 0) {
                     die(var_dump(empty($currentValue)));
@@ -127,7 +132,7 @@ class PrestAlert extends Module
                 ),
                 'input' => [
                     [
-                        'type' => 'date',
+                        'type' => 'datetime',
                         'label' => $this->l('Date de début d\'affichage'),
                         'name' => 'banner_start_date',
                         'size' => 20,
@@ -135,7 +140,7 @@ class PrestAlert extends Module
                     ],
 
                     [
-                        'type' => 'date',
+                        'type' => 'datetime',
                         'label' => $this->l('Date de fin d\'affichage'),
                         'name' => 'banner_end_date',
                         'size' => 10,
