@@ -25,7 +25,8 @@ class PrestAlert extends Module
             'banner_start_date',
             'banner_end_date',
             'banner_img',
-            'banner_url'
+            'banner_url',
+            'banner_active',
         ];
 
         parent::__construct();
@@ -70,7 +71,8 @@ class PrestAlert extends Module
 
                 $currentValue = $name == 'banner_img' ? Configuration::get($name) :  strval(Tools::getValue($name));
 
-                if (!$currentValue || empty($currentValue)) {
+                if (is_null($currentValue) || strlen($currentValue) == 0) {
+                    die(var_dump(empty($currentValue)));
                     $output .= $this->displayError($this->l('Veuillez renseigner le champs ' . $name));
                 } else {
                     if ($name == 'banner_img') {
@@ -129,7 +131,6 @@ class PrestAlert extends Module
                         'label' => $this->l('Date de début d\'affichage'),
                         'name' => 'banner_start_date',
                         'size' => 20,
-                        'class' => 'input',
                         'required' => true
                     ],
 
@@ -137,9 +138,8 @@ class PrestAlert extends Module
                         'type' => 'date',
                         'label' => $this->l('Date de fin d\'affichage'),
                         'name' => 'banner_end_date',
-                        'size' => 20,
-                        'class' => 'input',
-                        'required' => true
+                        'size' => 10,
+                        'required' => true,
                     ],
 
                     [
@@ -158,6 +158,27 @@ class PrestAlert extends Module
                         'placeholder' => 'http://monsite/chemin/mapage',
                         'class' => 'input',
                         'required' => true
+                    ],
+
+                    [
+                        'type' => 'radio',
+                        'label' => $this->l('Visibilité'),
+                        'name' => 'banner_active',
+                        'class' => 'input',
+                        'class'     => 't',
+                        'is_bool' => true,
+                        'values'  => [
+                            [
+                                'id' => 'visible',
+                                'value' => 1,
+                                'label' => $this->l('Visible'),
+                            ],
+                            [
+                                'id' => 'hidden',
+                                'value' => 0,
+                                'label' => $this->l('Hidden'),
+                            ],
+                        ],
                     ]
                 ],
                 'submit' => [
@@ -192,8 +213,8 @@ class PrestAlert extends Module
             'prestalert_end' => Configuration::get('banner_end_date'),
             'prestalert_src' => Configuration::get('banner_img'),
             'prestalert_url' => Configuration::get('banner_url'),
+            'prestalert_active' => Configuration::get('banner_active'),
         ]);
-
 
         $this->context->controller->addCSS(
             $this->_path . 'views/css/prestalert.css',

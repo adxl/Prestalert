@@ -1,5 +1,6 @@
 #prestalert_block {
     height: 10vh;
+    margin: 0 !important;
 }
 
 #prestalert_block a {
