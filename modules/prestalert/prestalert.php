@@ -26,6 +26,7 @@ class PrestAlert extends Module
             'banner_end_date',
             'banner_img',
             'banner_text',
+            'banner_font_size',
             'banner_color',
             'banner_url',
             'banner_active',
@@ -78,7 +79,7 @@ class PrestAlert extends Module
 
                 $currentValue = $name == 'banner_img' ? Configuration::get($name) : strval(Tools::getValue($name));
 
-                if (is_null($currentValue) || strlen($currentValue) == 0) {
+                if ($name != 'banner_img' &&( is_null($currentValue) || strlen($currentValue) == 0)) {
                     $output .= $this->displayError($this->l('Veuillez renseigner le champs ' . $name));
                 } else {
                     if ($name == 'banner_img') {
@@ -175,6 +176,13 @@ class PrestAlert extends Module
                     ],
 
                     [
+                        'type' => 'text',
+                        'placeholder' => 'Exemple: 30px; 2em; 26pt;',
+                        'label' => $this->l('Taille du texte'),
+                        'name' => 'banner_font_size'
+                    ],
+
+                    [
                         'type' => 'color',
                         'label' => $this->l('Couleur du texte'),
                         'name' => 'banner_color',
@@ -184,8 +192,7 @@ class PrestAlert extends Module
                         'type' => 'radio',
                         'label' => $this->l('Visibilité'),
                         'name' => 'banner_active',
-                        'class' => 'input',
-                        'class'     => 't',
+                        'class' => 't',
                         'is_bool' => true,
                         'values'  => [
                             [
@@ -233,6 +240,7 @@ class PrestAlert extends Module
             'prestalert_end' => Configuration::get('banner_end_date'),
             'prestalert_src' => Configuration::get('banner_img'),
             'prestalert_text' => Configuration::get('banner_text'),
+            'prestalert_font_size' => Configuration::get('banner_font_size'),
             'prestalert_color' => Configuration::get('banner_color'),
             'prestalert_url' => Configuration::get('banner_url'),
             'prestalert_active' => Configuration::get('banner_active'),
